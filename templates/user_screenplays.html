@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="action-bar">
+  <div class="action-bar-content">
+    <a href="/screenplay/new">NEW SCREENPLAY</a>
+  </div>
+</div>
+
+<div class="screenplays-list" id="screenplays-list">
+  <ul>
+    {% for screenplay in screenplays %}
+    <li>
+      <a href="/screenplay/{{ screenplay.id }}">
+        {{ screenplay.structured_scene.scene_heading }}
+        ({{ screenplay.genre if screenplay.genre else "No genre" }})
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+
+  {% if next_page_start %}
+  <div class="pagination" id="pagination">
+    <button class="btn pagination-link" hx-get="/screenplays?page_starts_at={{ next_page_start }}"
+      hx-target="#pagination" hx-swap="outerHTML" hx-indicator=".loading-spinner">
+      Load More
+      <span class="loading-spinner"></span>
+    </button>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

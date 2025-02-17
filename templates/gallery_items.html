@@ -1,0 +1,21 @@
+{% for screenplay in screenplays %}
+<div class="gallery-item">
+  <a href="/screenplay/{{ screenplay.id }}">
+    <img src="/images/{{ screenplay.image_id }}" alt="Scene thumbnail">
+    <div class="gallery-item-info">
+      <p class="genre">{{ screenplay.genre if screenplay.genre else "Genre Unknown" }}</p>
+      <p class="scene-heading">{{ screenplay.structured_scene.scene_heading }}</p>
+    </div>
+  </a>
+</div>
+{% endfor %}
+
+{% if next_page_start %}
+<div class="pagination" id="pagination">
+  <button class="btn pagination-link" hx-get="/?page_starts_at={{ next_page_start }}" hx-target="#pagination"
+    hx-swap="outerHTML" hx-indicator=".loading-spinner">
+    Load More
+    <span class="loading-spinner"></span>
+  </button>
+</div>
+{% endif %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p>Turn your photos into creative screenplay scenes using AI.</p>
+<div class="gallery-container">
+  <div class="gallery" id="gallery">
+    {% include "gallery_items.html" %}
+  </div>
+</div>
+{% if not is_logged_in(request) %}
+<p><a href="/login">Sign in</a> to create your own screenplay scenes</p>
+{% endif %}
+{% endblock %}

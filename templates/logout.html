@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>User Profile</h2>
+<p>{{ user.name }} ({{ user.email }})</p>
+<p>
+<form action="/logout" method="post">
+  <button type="submit" class="btn">
+    <span class="text">Sign Out</span>
+  </button>
+</form>
+</p>
+{% endblock%}

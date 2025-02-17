@@ -1,0 +1,15 @@
+Construct ONE short, engaging micro scene (1 minute of screen time at most).
+
+A still of the opening shot of the scene is attached. 
+
+{% if genre %}The genre is {{genre}}. Write the scene in that style.{% endif %}
+
+{% if analysis %}
+Analysis of the still:
+{{analysis}}
+{% endif %}
+
+Output format:
+Genre: [GENRE]
+Scene: 
+[SCREENPLAY]

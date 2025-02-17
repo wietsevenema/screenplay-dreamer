@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="error-message" class="error-message" style="display: none;"></div>
+
+<form hx-post="/screenplay/generate" hx-encoding="multipart/form-data" hx-indicator=".loading-spinner"
+  hx-on::after-request="if(event.detail.failed) showError(event.detail.xhr.response)">
+  <div class="form-group">
+
+    <label for="file">Upload an image to generate a screenplay scene:</label>
+    <input type="file" id="file" name="file" accept="image/*" required>
+
+  </div>
+  <button type="submit" class="btn">
+    <span class="text">Generate Scene</span>
+    <span class="loading-spinner htmx-indicator"></span>
+  </button>
+  <p>Screenplays are <b>unlisted</b> by default, accessible only to those with the link.
+    Changing the visibility to <b>public</b> makes them appear on the home page.</p>
+</form>
+
+{% endblock %}

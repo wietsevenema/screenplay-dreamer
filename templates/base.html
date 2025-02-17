@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Screenplay Dreamer</title>
+  <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet">
+  <link rel="icon" href="/static/favicon.svg" />
+  {% block extra_scripts %}{% endblock %}
+</head>
+
+<body>
+  <div class="page">
+    <div class="header">
+      <h1><a href="/">
+          Screenplay Dreamer
+        </a></h1>
+      <nav class="nav">
+        {% if is_logged_in(request) %}
+        <a href="/">Home</a>
+        <a href="/screenplay">Screenplays</a>
+        <a href="/about">About</a>
+        <a href="/logout">Sign Out</a>
+        {% else %}
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/login">Sign In</a>
+        {% endif %}
+      </nav>
+      <hr>
+    </div>
+
+    {% block content %}{% endblock %}
+
+
+    <footer class="footer">
+      <hr>
+      Screenplays written by Gemini 2.0, app created by <a href="https://www.wietsevenema.eu/">Wietse Venema</a>
+    </footer>
+  </div>
+</body>
+
+</html>

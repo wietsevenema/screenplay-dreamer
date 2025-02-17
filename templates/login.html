@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block extra_scripts %}
+<script src="https://accounts.google.com/gsi/client" async></script>
+<script>
+  function handleCredentials(response) {
+    console.log('Received credentials response:', response);
+    // Submit the credential to our backend
+    fetch('/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        credential: response.credential
+      })
+    })
+      .then(response => {
+        if (response.ok) {
+          // Get the next URL from the query parameter, defaulting to home
+          const urlParams = new URLSearchParams(window.location.search);
+          let nextUrl = urlParams.get('next') || '/';
+          // Ensure nextUrl starts with / for relative path
+          if (!nextUrl.startsWith('/')) {
+            nextUrl = '/' + nextUrl;
+          }
+          window.location.href = decodeURIComponent(nextUrl);
+        } else {
+          console.error('Authentication failed');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="g_id_onload" data-client_id="{{ settings.GOOGLE_CLIENT_ID }}" data-context="signin" data-ux_mode="popup"
+  data-callback="handleCredentials" data-auto_select="true" data-auto_prompt="false" data-itp_support="true">
+</div>
+
+<div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline" data-text="signin_with"
+  data-size="large" data-logo_alignment="left">
+</div>
+
+{% endblock %}

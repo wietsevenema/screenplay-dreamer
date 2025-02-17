@@ -1,0 +1,5 @@
+Analyze this screenplay scene and convert it into a structured format. 
+
+Here's the scene to parse:
+---
+{{screenplay}}

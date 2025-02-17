@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="screenplay-output">
+  {% if user and screenplay.user_id == user.id %}
+  <div class="settings-panel">
+    <h3>Settings</h3>
+    <form>
+      <label>
+        Visibility:
+        <select name="public" hx-patch="/screenplay/{{ screenplay_id }}/settings" hx-swap="none"
+          hx-indicator=".loading-spinner">
+          <option value="true" {% if screenplay.public %}selected{% endif %}>Public</option>
+          <option value="false" {% if not screenplay.public %}selected{% endif %}>Unlisted</option>
+        </select>
+      </label>
+      <span class="loading-spinner htmx-indicator"></span>
+    </form>
+  </div>
+  {% endif %}
+  <div class="scene">
+    <p>
+      <strong>Genre:</strong> {{ screenplay.genre if screenplay.genre else "Not specified" }}<br>
+      {% if screenplay.models %}
+      <strong>Models:</strong> {{ screenplay.models|sort|join(", ") }}<br>
+      {% endif %}
+      <strong>Co-creator:</strong> {{screenplay_user.name}}
+    </p>
+    <div class="screenplay-image">
+      <img src="/images/{{ screenplay.image_id }}"
+        title="{{ screenplay.analysis if screenplay.analysis else 'Scene image' }}" class="scene-image">
+    </div>
+    <div class="scene-description">{{ screenplay.structured_scene.scene_heading }}</div>
+    {% for element in screenplay.structured_scene.elements %}
+    {% if element.type == 'visual' %}
+    <div class="description">{{ element.visual }}</div>
+    {% elif element.type == 'dialogue' %}
+    <div class="character">{{ element.character }}</div>
+    <div class="line">
+      {% if element.manner is not none and element.manner|trim() %}({{ element.manner }})<br>{% endif %}
+      {{ element.line }}
+    </div>
+    {% elif element.type == 'sound' %}
+    <div class="description">({{ element.sound }})</div>
+    {% elif element.type == 'scene_ending' %}
+    <div class="description">{{ element.transition }}</div>
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+
+{% if not is_logged_in(request) %}
+<hr>
+<p><a href="/login">Sign in</a> to create your own screenplay scenes</p>
+{% endif %}
+{% endblock %}
